@@ -1,0 +1,20 @@
+import math
+import random
+def simulated_annealing(cost_function, initial, t=10000.0, cr=0.95, steps=1000):
+    current_solution = initial
+    for _ in range(steps):
+        t *= cr
+        if t == 0:
+            break
+        next_solution = [x + random.uniform(-1, 1) for x in current_solution]
+        current_cost = cost_function(current_solution)
+        next_cost = cost_function(next_solution)
+        if next_cost < current_cost or random.random() < math.exp((current_cost - next_cost)/t):
+            current_solution = next_solution
+    return current_solution, cost_function(current_solution)
+def cost_function(solution):
+    return sum(x ** 2 for x in solution)
+initial= [random.uniform(-10, 10)]
+solution, optimum_value = simulated_annealing(cost_function, initial)
+print("Optimum Solution:", solution)
+print("Optimum Value:", optimum_value)
