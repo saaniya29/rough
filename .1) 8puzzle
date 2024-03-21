@@ -1,0 +1,44 @@
+from collections import deque
+def print_state(state):
+    for row in state:
+        print(" ".join(map(str, row)))
+    print()
+def is_goal_state(state):
+    goal_state = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+    return state == goal_state
+def get_possible_moves(state):
+    moves = []
+    zero_row, zero_col = find_zero(state)
+    deltas = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+    for dr, dc in deltas:
+        new_row, new_col = zero_row + dr, zero_col + dc
+        if 0 <= new_row < 3 and 0 <= new_col < 3:
+            new_state = [row[:] for row in state]
+            new_state[zero_row][zero_col], new_state[new_row][new_col] = new_state[new_row][new_col], new_state[zero_row][zero_col]
+            moves.append(new_state)
+    return moves
+def find_zero(state):
+    for i in range(3):
+        for j in range(3):
+            if state[i][j] == 0:
+                return i, j
+def bfs(initial_state):
+    visited = set()
+    queue = deque([(initial_state, [])])
+    while queue:
+        state, path = queue.popleft()
+        print_state(state)
+        if is_goal_state(state):
+            print("Solution Found!")
+            print("Path:", path)
+            return
+        visited.add(str(state))
+        for next_state in get_possible_moves(state):
+            if str(next_state) not in visited:
+                queue.append((next_state, path + [next_state]))
+    print("No solution found.")
+
+initial_state = [[1, 2, 3], [4, 0, 6], [7, 5, 8]]
+print("Initial State:")
+print_state(initial_state)
+bfs(initial_state)
