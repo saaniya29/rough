@@ -7,9 +7,9 @@ def simulated_annealing(cost_function, initial, t=10000.0, cr=0.95, steps=1000):
         if t == 0:
             break
         next_solution = [x + random.uniform(-1, 1) for x in current_solution]
-        current_cost = cost_function(current_solution)
-        next_cost = cost_function(next_solution)
-        if next_cost < current_cost or random.random() < math.exp((current_cost - next_cost)/t):
+        cc = cost_function(current_solution)
+        nc = cost_function(next_solution)
+        if nc < cc or random.random() < math.exp((cc - nc)/t):
             current_solution = next_solution
     return current_solution, cost_function(current_solution)
 def cost_function(solution):
