@@ -1,9 +1,9 @@
 def mapcoloring(graph, colors):
     colored = {}
     for node in sorted(graph, key=lambda x: len(graph[x]), reverse=True):
-        used_colors = {colored[neighbor] for neighbor in graph[node] if neighbor in colored}
-        available_colors = colors - used_colors
-        colored[node] = next(iter(available_colors)) if available_colors else None
+        used = {colored[neighbor] for neighbor in graph[node] if neighbor in colored}
+        unused = colors - used
+        colored[node] = next(iter(unused)) if unused else None
     return colored
 graph = {
     0: [1, 2],
