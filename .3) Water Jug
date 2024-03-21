@@ -1,0 +1,26 @@
+from collections import deque
+def bfs(initial, final, maxc):
+    visited = set()
+    queue = deque([(initial, [])])
+    while queue:
+        state, _ = queue.popleft()
+        print(state)
+        if state == final: 
+            return
+        visited.add(state)
+        for ns, _ in [(s, a) 
+            for s, a in get_possible_moves(state, maxc) if s not in visited ]:
+            queue.append((ns, None))
+def get_possible_moves(state, maxc):
+    j1, j2 = state
+    m1, m2 = maxc
+    return [
+        ((m1, j2), 'Fill jug1'),
+        ((j1, m2), 'Fill jug2'),
+        ((0, j2), 'Empty jug1'),
+        ((j1, 0), 'Empty jug2'),
+        ((max(0, j1 - (m2 - j2)), min(j1 + j2, m2)), 'Pour jug1 to jug2'),
+        ((min(j1 + j2, m1), max(0, j2 - (m1 - j1))), 'Pour jug2 to jug1') ]
+initial, final, maxc = (0, 0), (2, 0), (4, 3)
+print("Initial State:", initial)
+bfs(initial, final, maxc)
