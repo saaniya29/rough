@@ -1,0 +1,26 @@
+from itertools import permutations
+def solve_cryptarithmetic():
+    letters = ['S', 'E', 'N', 'D', 'M', 'O', 'R', 'Y']
+    perms = permutations(range(10), len(letters))
+    for perm in perms:
+        solution = dict(zip(letters, perm))
+        if (solution['S'] != 0 and solution['M'] != 0):
+            left_side = 1000 * solution['S'] + 100 * solution['E'] + 10 * solution['N'] + solution['D'] \
+                      + 1000 * solution['M'] + 100 * solution['O'] + 10 * solution['R'] + solution['E']
+            right_side = 10000 * solution['M'] + 1000 * solution['O'] + 100 * solution['N'] \
+                       + 10 * solution['E'] + solution['Y']
+            if left_side == right_side:
+                return solution 
+    return None 
+solution = solve_cryptarithmetic()
+if solution:
+    print("S =", solution['S'])
+    print("E =", solution['E'])
+    print("N =", solution['N'])
+    print("D =", solution['D'])
+    print("M =", solution['M'])
+    print("O =", solution['O'])
+    print("R =", solution['R'])
+    print("Y =", solution['Y'])
+else:
+    print("No solution found.")
